@@ -1,5 +1,5 @@
 html, body {
-    background-color: lightblue;
+    background-color: #f1fefe;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
@@ -27,4 +27,22 @@ body {
             }
         }
     }
+}
+
+
+
+section.about{
+    display: flex;
+}
+section.about-me {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin-top: 0px;
+    margin-left: 30px;
+}
+img {
+    max-width: 20%;
+    height: auto;
+    margin-top: 20px;
 }
