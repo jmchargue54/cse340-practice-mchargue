@@ -1,12 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
 html, body {
     background-color: #f1fefe;
-    font-family: Arial, sans-serif;
+    font-family: 'Sour Gummy', sans-serif;
     margin: 0;
     padding: 20px;
 }
 
 body {
     nav {
+        font-size: 20px;
+        text-align: right;
         ul {
             list-style-type: none;
             padding: 0;
@@ -27,12 +30,34 @@ body {
             }
         }
     }
+    footer {
+        position: fixed;
+        bottom: 0;
+        text-align: left;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #777;
+    }
 }
 
+main{
+    margin: 0 auto;
+    width: 800px;
+    /* text-align: center; */
+    h1{
+        text-align: center;
+        font-size: 45px;
+    }
+    p{
+        margin: 0 auto;
+        text-align: center;
+    }
+}
 
 
 section.about{
     display: flex;
+    margin: 0 auto;
 }
 section.about-me {
     display: flex;
@@ -42,7 +67,8 @@ section.about-me {
     margin-left: 30px;
 }
 img {
-    max-width: 20%;
-    height: auto;
+    display: block;
+    width: 30%;
+    height: 100%;
     margin-top: 20px;
 }
