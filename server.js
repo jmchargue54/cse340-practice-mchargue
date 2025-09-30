@@ -36,6 +36,7 @@ app.use((req, res, next) => {
     next();
 });
 
+
 //Routes
 app.get('/', (req, res) => {
     const title = 'Welcome Home';
@@ -51,6 +52,61 @@ app.get('/products', (req, res) => {
     const title = 'Our Products';
     res.render('products', { title });
 });
+
+app.get('/demo/:color/:size', (req, res) => {
+    const title = 'Params Demo';
+    const { color, food } = req.params;  //destructure the parameters from the URL
+    res.render('demo', { title, color, food });
+});
+
+// Test route for 500 errors
+app.get('/test-error', (req, res, next) => {
+    const err = new Error('This is a test error');
+    err.status = 500;
+    next(err);
+});
+
+// 404 catch-all page
+app.use((req, res, next) => {
+    const err = new Error('Page not found!');
+    err.status = 404;
+    // res.status(404).render('404', { title: 'Not Found' });
+    next(err);
+}); 
+
+// Global error handler
+app.use((err, req, res, next) => {
+    // Log error details for debugging
+    console.error('Error occurred:', err.message);
+    console.error('Stack trace:', err.stack);
+
+    // Determine status and template
+    const status = err.status || 500;
+    const template = status === 404 ? '404' : '500';
+
+    // Prepare data for the template
+    const context = {
+        title: status === 404 ? 'Page Not Found' : 'Server Error',
+        error: err.message,
+        stack: err.stack
+    };
+
+    // Render the appropriate error template
+    res.status(status).render(`errors/${template}`, context);
+});
+
+
+// global error handler- in class
+// app.use((err, req, res, next) => {
+//     err.statuts = err.status || 500;
+
+//     if (err.status === 404) {
+//     res.status(404).render('404', { title: 'Not Found' });
+//     return;
+//     }
+
+//     res.status(500).render('500', { title: 'Server Error' });
+// });
 
 // When in development mode, start a WebSocket server for live reloading
 if (NODE_ENV.includes('dev')) {
