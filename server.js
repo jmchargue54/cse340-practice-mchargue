@@ -52,6 +52,17 @@ const __dirname = path.dirname(__filename);
 const NODE_ENV = process.env.NODE_ENV || 'production';
 const PORT = process.env.PORT || 3000;
 
+// Route-specific middleware that sets custom headers
+const addDemoHeaders = (req, res, next) => {
+    // Your task: Set custom headers using res.setHeader()
+    // Add a header called 'X-Demo-Page' with value 'true'
+    res.setHeader('X-Demo-Page', 'true');
+    // Add a header called 'X-Middleware-Demo' with any message you want
+    res.setHeader('X-Middleware-Demo', 'This is a message of my choosing');
+
+    next();
+};
+
 //Middleware
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -143,6 +154,13 @@ app.get('/catalog', (req, res) => {
     res.render('catalog', { 
         title: 'Course Catalog', 
         courses 
+    });
+});
+
+// Demo page route with header middleware
+app.get('/demo', addDemoHeaders, (req, res) => {
+    res.render('demo', {
+        title: 'Middleware Demo Page'
     });
 });
 
