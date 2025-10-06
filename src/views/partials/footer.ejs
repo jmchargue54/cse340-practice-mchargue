@@ -1,5 +1,14 @@
     <footer>
-        <p>&copy; 2025 My Express App.</p>
+        <p>&copy; <%= currentYear %> My Express App.</p>
+        <% if (Object.keys(queryParams).length > 0) { %>
+        <p>Query Parameters:
+            <% for (let key in queryParams) { %>
+            <%= key %>=<%= queryParams[key] %>
+            <% } %>
+        </p>
+        <% } else { %>
+        <p>No query parameters found.</p>
+        <% } %>
     </footer>
 </body>
 </html>

@@ -47,10 +47,12 @@ const name = process.env.NAME;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
 // Define the port number the server will listen on
 const NODE_ENV = process.env.NODE_ENV || 'production';
 const PORT = process.env.PORT || 3000;
 
+//Middleware
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -66,6 +68,7 @@ app.set('views', path.join(__dirname, 'src/views'));
  * Makes common variables available to all EJS templates without having to pass
  * them individually from each route handler
  */
+
 app.use((req, res, next) => {
     // Make NODE_ENV available to all templates
     res.locals.NODE_ENV = NODE_ENV.toLowerCase() || 'production';
@@ -74,6 +77,50 @@ app.use((req, res, next) => {
     next();
 });
 
+// Global middleware to share query parameters with templates
+app.use((req, res, next) => {
+    res.locals.queryParams = req.query;
+
+    next();
+});
+
+// Middleware to add global data to all templates
+app.use((req, res, next) => {
+    // Add current year for copyright
+    res.locals.currentYear = new Date().getFullYear();
+
+    next();
+});
+
+// Global middleware for time-based greeting
+app.use((req, res, next) => {
+    const currentHour = new Date().getHours();
+    /**
+     * Create logic to set different greetings based on the current hour.
+     * Use res.locals.greeting to store the greeting message.
+     * Hint: morning (before 12), afternoon (12-17), evening (after 17)
+     */
+    if (currentHour < 12) {
+        res.locals.greeting = 'Good morning sunshine';
+    } else if (currentHour >= 12 && currentHour < 17) {
+        res.locals.greeting = 'Good afternoon';
+    } else {
+        res.locals.greeting = 'Go to bed!';
+    }
+
+    next();
+});
+
+// Global middleware for random theme selection
+app.use((req, res, next) => {
+    const themes = ['blue-theme', 'green-theme', 'red-theme'];
+
+    // Your task: Pick a random theme from the array
+    const randomTheme = themes[Math.floor(Math.random() * themes.length)];// Your random selection logic here
+    res.locals.bodyClass = randomTheme;
+
+    next();
+});
 
 //Routes
 app.get('/', (req, res) => {
@@ -89,12 +136,6 @@ app.get('/about', (req, res) => {
 app.get('/products', (req, res) => {
     const title = 'Our Products';
     res.render('products', { title });
-});
-
-app.get('/demo/:color/:size', (req, res) => {
-    const title = 'Params Demo';
-    const { color, food } = req.params;  //destructure the parameters from the URL
-    res.render('demo', { title, color, food });
 });
 
 // Course catalog list page
