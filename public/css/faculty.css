@@ -1,0 +1,141 @@
+.sort-options {
+    margin: 1rem 0 2rem 0;
+    text-align: center;
+    
+    span {
+        margin-right: 1rem;
+        font-weight: bold;
+        color: #666;
+    }
+    
+    a {
+        margin: 0 0.5rem;
+        padding: 0.25rem 0.75rem;
+        text-decoration: none;
+        border-radius: 4px;
+        color: #2c5aa0;
+        
+        &:hover {
+            background-color: #f0f4f8;
+        }
+        
+        &.active {
+            background-color: #2c5aa0;
+            color: white;
+        }
+    }
+}
+
+.faculty-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+    
+    .faculty-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 1.5rem;
+        background: #fff;
+        transition: box-shadow 0.2s ease;
+        
+        &:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        h3 {
+            margin: 0 0 0.5rem 0;
+            text-align: center;
+            
+            a {
+                color: #2c5aa0;
+                text-decoration: none;
+                
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+        
+        .faculty-title {
+            color: #666;
+            font-weight: 500;
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .faculty-department {
+            color: #444;
+            line-height: 1.5;
+            margin: 0;
+        }
+    }
+}
+
+.faculty-profile {
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    text-align: center;
+    
+    h1 {
+        color: #2c5aa0;
+        margin-bottom: 0.5rem;
+    }
+    
+    .faculty-title {
+        font-size: 1.2rem;
+        color: #666;
+        font-weight: 500;
+        margin: 0 0 0.5rem 0;
+    }
+    
+    .faculty-department {
+        font-size: 1.1rem;
+        color: #444;
+        line-height: 1.6;
+        margin: 0;
+    }
+}
+
+.faculty-contact {
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    
+    h2 {
+        color: #2c5aa0;
+        border-bottom: 2px solid #2c5aa0;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .contact-details {
+        background: #f9f9f9;
+        padding: 1.5rem;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        
+        .contact-item {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            
+            &:last-child {
+                margin-bottom: 0;
+            }
+            
+            strong {
+                display: inline-block;
+                width: 80px;
+                color: #333;
+            }
+            
+            a {
+                color: #2c5aa0;
+                text-decoration: none;
+                
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
