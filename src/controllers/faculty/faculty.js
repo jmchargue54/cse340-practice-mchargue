@@ -22,7 +22,7 @@ const facultyDetailPage = (req, res, next) => {
 
     // If faculty doesn't exist, create 404 error
     if (!faculty) {
-        const err = new Error(`Faculty ${facultyId} not found`);
+        const err = new Error('Faculty member not found');
         err.status = 404;
         return next(err);
     }
