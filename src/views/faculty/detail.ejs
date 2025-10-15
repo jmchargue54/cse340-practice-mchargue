@@ -1,16 +1,16 @@
 <%- include('../partials/header') %>
 <main>
     <div class="faculty-header">
-        <h1><%= faculty.name %></h1>
-        <p class="faculty-title"><%= faculty.title %></p>
-        <p class="faculty-department"><%= faculty.department %></p>
+        <h1><%= facultyMember.name %></h1>
+        <p class="faculty-title"><%= facultyMember.title %></p>
+        <p class="faculty-department"><%= facultyMember.department %></p>
     </div>
 
     <div class="sections">
         <div class="faculty-contact">
-            <p class="faculty-office">Office: <%= faculty.office %></p>
-            <p class="contact-item" class="faculty-email">Email: <a href="mailto:<%= faculty.email %>"><%= faculty.email %></a></p>
-            <p class="faculty-phone">Phone: <%= faculty.phone %></p>
+            <p class="faculty-office">Office: <%= facultyMember.office %></p>
+            <p class="contact-item" class="faculty-email">Email: <a href="mailto:<%= facultyMember.email %>"><%= facultyMember.email %></a></p>
+            <p class="faculty-phone">Phone: <%= facultyMember.phone %></p>
         </div>
     </div>
 

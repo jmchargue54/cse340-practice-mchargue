@@ -11,9 +11,9 @@
 
 
     <div class="faculty-list">
-        <% Object.values(faculty).forEach(person => { %>
+        <% Object.values(facultyList).forEach(person => { %>
             <div class="faculty-card">
-                <h3><a href="/faculty/<%= person.id %>"><%= person.name %></a></h3>
+                <h3><a href="/faculty/<%= person.slug %>"><%= person.name %></a></h3>
                 <p><% person.id %></p>
                 <p class="faculty-title"><%= person.title %></p>
                 <p class="faculty-department"><%= person.department %></p>
