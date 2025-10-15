@@ -3,6 +3,13 @@
 // import faculty model functions
 import { getFacultyBySlug, getSortedFaculty } from '../../models/faculty/faculty.js';
 
+/**
+ * Helper function to add styles specific to the faculty pages only
+ */
+const addFacultySpecificStyles = (res) => {
+    res.addStyle('<link rel="stylesheet" href="/css/faculty.css">');
+};
+
 // faculty list page
 const facultyListPage = async (req, res) => {
     // Default to sorting by name if no valid sort option is provided
@@ -10,6 +17,7 @@ const facultyListPage = async (req, res) => {
     const sortBy = validSortOptions.includes(req.query.sort) ? req.query.sort : 'name';
     // Fetch sorted faculty list
     const facultyList = await getSortedFaculty(sortBy);
+    addFacultySpecificStyles(res);
     res.render('faculty/list', { 
         title: 'Faculty Directory',
         currentSort: sortBy,
@@ -27,6 +35,7 @@ const facultyDetailPage = async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
+    addFacultySpecificStyles(res);
     res.render('faculty/detail', { 
         title: facultyMember.name,
         facultyMember
