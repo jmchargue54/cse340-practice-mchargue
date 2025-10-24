@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import db from './db.js';
+import setupPracticeDatabase from './practice-setup.js';
 
 // Catalog data as array
 const catalog = [
@@ -1537,6 +1538,7 @@ const setupDatabase = async() => {
     try {
         // Skip everything if schema + last seed rows are present
         if (await isAlreadyInitialized(verbose)) {
+            setupPracticeDatabase(verbose);
             if (verbose) console.log('DB already initialized — skipping setup.');
             return true;
         }
@@ -1568,6 +1570,7 @@ const setupDatabase = async() => {
         }
 
         if (verbose) {
+            setupPracticeDatabase(verbose);
             console.log('Database setup complete');
         }
         return true;
