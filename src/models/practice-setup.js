@@ -30,6 +30,34 @@ const insertContactForm = async (verbose = true) => {
 const setupPracticeDatabase = async (verbose = true) => {
     // Ensure contact_form table exists
     await insertContactForm(verbose);
+
+    // Ensure users table exists
+    await insertUsersTable(verbose);
+};
+// SQL to create a users table for registration system
+const createUsersTableIfNotExists = `
+    CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+`;
+
+// Execute the SQL to create users table
+const insertUsersTable = async (verbose = true) => {
+    try {
+        await db.query(createUsersTableIfNotExists);
+        if (verbose) {
+            console.log('users table created/exists');
+        }
+    } catch (error) {
+        if (verbose) {
+            console.error('Failed to create or verify users table:', error);
+        }
+    }
 };
 
 export default setupPracticeDatabase;
