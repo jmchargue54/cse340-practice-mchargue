@@ -2,6 +2,8 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { setupDatabase, testConnection } from './src/models/setup.js';
+import session from 'express-session';
+import connectPgSimple from 'connect-pg-simple';
 
 // Import MVC components
 import routes from './src/controllers/routes.js';
@@ -22,6 +24,25 @@ const app = express();
 /**
  * Configure Express
  */
+// Initialize PostgreSQL session store
+    const pgSession = connectPgSimple(session);
+
+    // Configure session middleware
+    app.use(session({
+    store: new pgSession({
+        conString: process.env.DB_URL,
+        tableName: 'session', // The name for our "sessions" table in the db
+        createTableIfMissing: true
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: NODE_ENV.includes('dev') !== true,
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000
+    }
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));

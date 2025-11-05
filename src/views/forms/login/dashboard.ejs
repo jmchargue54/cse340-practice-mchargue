@@ -1,0 +1,55 @@
+<%- include('../../partials/header') %>
+<main class="dashboard">
+    <h1>Welcome to Your Dashboard</h1>
+    <p>
+        This is a protected page that requires authentication. Only logged-in users can access this content.
+    </p>
+
+    <div class="user-info">
+        <h2>Your Account Information</h2>
+        <!-- TODO: Display user name, email, and account creation date -->
+         <% if (user) { %>
+            <div class="user-detail">
+                <span class="label">Name:</span>
+                <span class="value"><%= user.name %></span>
+            </div>
+
+            <div class="user-detail">
+                <span class="label">Email:</span>
+                <span class="value"><%= user.email %></span>
+            </div>
+
+            <div class="user-detail">
+                <span class="label">Account Created On:</span>
+                <span class="value"><%= new Date(user.created_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }) %>
+                </span>
+            </div>
+        <% } else { %>
+            <p>No user data available</p>
+        <% } %>
+    </div>
+
+    <div class="session-debug">
+        <h3>Session Information (For Learning Purposes)</h3>
+        <p><em>This section shows your current session data for educational purposes.</em></p>
+        <!-- TODO: Display session info in a pre element -->
+        <!-- TODO: Use JSON.stringify(sessionData, null, 2) to format nicely -->
+        <!-- HINT: Pass req.session from controller to template -->
+         <% if (sessionData) { %>
+            <pre><%= JSON.stringify(sessionData, null, 2) %></pre>
+        <% } else { %>
+            <p>No session data available.</p>
+        <% } %>
+
+        <p class="note">If you see a password property in the above object you have a security vulnerability, fix it!</p>
+    </div>
+
+    <div class="dashboard-actions">
+        <a href="/logout" class="logout-button">Logout</a>
+    </div>
+</main>
+<%- include('../../partials/footer') %>
