@@ -50,13 +50,15 @@
         </nav>
     </header>
     <main>
-        <% const messages = flash(); %>
-        <% Object.keys(messages).forEach(type => { %>
-            <% if (messages[type].length > 0) { %>
-                <div class="alert <%= type %>">
-                    <% messages[type].forEach(msg => { %>
-                        <p><%= msg %></p>
-                    <% }); %>
-                </div>
-            <% } %>
-        <% }); %>
+        <% for (const type in messages) { %>
+        <% if (messages[type] && messages[type].length > 0) { %>
+            <div class="alert <%= type %>">
+            <% 
+                const msgs = Array.isArray(messages[type]) ? messages[type] : [messages[type]];
+                msgs.forEach(msg => { 
+            %>
+                <p><%= msg %></p>
+            <% }); %>
+            </div>
+        <% } %>
+        <% } %>

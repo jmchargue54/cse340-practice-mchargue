@@ -7,10 +7,12 @@ import { addDemoHeaders } from '../middleware/demo/headers.js';
 import { catalogPage, courseDetailPage } from './catalog/catalog.js';
 import { homePage, aboutPage, demoPage, testErrorPage } from './index.js';
 import { facultyListPage, facultyDetailPage } from './faculty/faculty.js';
-import { showContactForm, processContactForm, showContactResponses, contactValidation } from './forms/contact.js';
-import { showRegistrationForm, processRegistration, showAllUsers, registrationValidation } from './forms/registration.js';
-import { requireLogin } from '../middleware/auth.js';
+import { showContactForm, processContactForm, showContactResponses } from './forms/contact.js';
 import { showLoginForm, processLogin, processLogout, showDashboard, loginValidation } from './forms/login.js';
+import { showRegistrationForm, processRegistration, showAllUsers, showEditAccountForm, processEditAccount, processDeleteAccount } from './forms/registration.js';
+import { requireLogin, requireRole } from '../middleware/auth.js';
+import { contactValidation } from '../middleware/validation/contact.js';
+import { registrationValidation, updateAccountValidation } from '../middleware/validation/registration.js';
 
 // Home and basic pages
 router.get('/', homePage);
@@ -33,6 +35,11 @@ router.get('/contact/responses', showContactResponses);
 router.get('/register', showRegistrationForm);
 router.post('/register', registrationValidation, processRegistration);
 router.get('/users', showAllUsers);
+
+// Account management routes
+router.get('/users/:id/edit', requireLogin, showEditAccountForm);
+router.post('/users/:id/update', requireLogin, updateAccountValidation, processEditAccount);
+router.post('/users/:id/delete', requireRole('admin'), processDeleteAccount);
 
 // Demo page with special middleware
 router.get('/demo', addDemoHeaders, demoPage);
