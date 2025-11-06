@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { setupDatabase, testConnection } from './src/models/setup.js';
 import session from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
+import flash from './src/middleware/flash.js';
 
 // Import MVC components
 import routes from './src/controllers/routes.js';
@@ -54,6 +55,8 @@ app.use(express.json());
 /**
  * Global Middleware
  */
+
+app.use(flash); // Add this line BEFORE globalMiddleware
 
 app.use(globalMiddleware);
 /**

@@ -49,11 +49,11 @@ const processContactForm = async (req, res) => {
     const savedForm = await saveContactForm(subject, message);
 
     if (!savedForm) {
-        console.log('Failed to save contact form.');
+        req.flash('error', 'Failed to save contact form.');
         return res.redirect('/contact');
     }
 
-    console.log('Contact form saved:', savedForm);
+    req.flash('success', 'Your message has been sent successfully!');
     res.redirect('/contact');
 };
 

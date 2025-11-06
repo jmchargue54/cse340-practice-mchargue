@@ -49,4 +49,14 @@
             </ul>
         </nav>
     </header>
-        <p><%= greeting %></p>
+    <main>
+        <% const messages = flash(); %>
+        <% Object.keys(messages).forEach(type => { %>
+            <% if (messages[type].length > 0) { %>
+                <div class="alert <%= type %>">
+                    <% messages[type].forEach(msg => { %>
+                        <p><%= msg %></p>
+                    <% }); %>
+                </div>
+            <% } %>
+        <% }); %>

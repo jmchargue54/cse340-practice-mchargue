@@ -9,11 +9,18 @@ import bcrypt from 'bcrypt';
 const findUserByEmail = async (email) => {
     try {
         const query = `
-        SELECT id, name, email, password, created_at
-        FROM users
-        WHERE LOWER(email) = LOWER($1)
-        LIMIT 1
-    `;
+            SELECT 
+                users.id, 
+                users.name, 
+                users.email, 
+                users.password, 
+                users.created_at,
+                roles.role_name
+            FROM users
+            INNER JOIN roles ON users.role_id = roles.id
+            WHERE LOWER(users.email) = LOWER($1)
+            LIMIT 1    
+        `;
         // TODO: Execute query and return first row or null
         const result = await db.query(query, [email]);
         console.log('User:', result.rows[0]);
@@ -39,6 +46,7 @@ const verifyPassword = async (plainPassword, hashedPassword) => {
         return result;
 
     } catch (error) {
+        req.flash('error', 'Error verifying password');
         console.error('Error verifying password:', error);
         return false;
     }

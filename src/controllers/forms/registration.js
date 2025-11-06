@@ -27,6 +27,7 @@ const registrationValidation = [
         .normalizeEmail()
         .custom((value, { req }) => {
             if (value !== req.body.email) {
+                req.flash('error', 'Email addresses do not match');
                 throw new Error('Email addresses do not match');
             }
             return true;
@@ -41,6 +42,7 @@ const registrationValidation = [
     body('confirmPassword')
         .custom((value, { req }) => {
             if (value !== req.body.password) {
+                req.flash('error', 'Passwords do not match');
                 throw new Error('Passwords do not match');
             }
             return true;
@@ -79,6 +81,7 @@ const processRegistration = async (req, res) => {
     const exists = await emailExists(email);
     // TODO: If email exists, log message and redirect back
     if (exists) {
+        req.flash('error', `Account with email ${email} already exists`);
         console.log(`Registration attempt with existing email: ${email}`);
         return res.redirect('/register');
     }
@@ -87,11 +90,13 @@ const processRegistration = async (req, res) => {
     const saved = await saveUser(name, email, password);
     // TODO: If save fails, log error and redirect back
     if (!saved) {
-        console.error('Failed to save user during registration');
+        req.flash('error', 'Failed to save user during registration');
+        console.log('Failed to save user during registration');
         return res.redirect('/register');
     }
 
     // TODO: If successful, log success and redirect (maybe to users list?)
+    req.flash('success', `User registered successfully: ${email}`);
     console.log(`User registered successfully: ${email}`);
     return res.redirect('/users');
 };

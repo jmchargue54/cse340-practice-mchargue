@@ -49,6 +49,7 @@ const processLogin = async (req, res) => {
     const user = await findUserByEmail(email);
     // TODO: If user not found, log "User not found" and redirect back
     if (!user) {
+        req.flash('error', 'User not found');
         console.log('User not found');
         return res.redirect('/login');
     }
@@ -60,6 +61,7 @@ const processLogin = async (req, res) => {
 
     // TODO: If password incorrect, log "Invalid password" and redirect back
     if (!passwordMatch) {
+        req.flash('error', 'Invalid password');
         console.log('Invalid password');
         return res.redirect('/login');
     }
@@ -71,6 +73,7 @@ const processLogin = async (req, res) => {
     req.session.user = user;
 
     // TODO: Redirect to protected dashboard (/dashboard)
+    req.flash('success', 'Login successful!');
     res.redirect('/dashboard');
 };
 
@@ -92,7 +95,7 @@ const processLogout = (req, res) => {
     req.session.destroy((err) => {
         if (err) {
             // If something goes wrong while removing the session from the DB:
-            console.error('Error destroying session:', err);
+            console.log('Error destroying session:', err);
 
             /**
             * Clear the session cookie from the browser anyway, so the client
