@@ -39,6 +39,15 @@
         padding: 1.5rem;
         background: #fff;
         transition: box-shadow 0.2s ease;
+
+        img {
+            display: block;
+            margin: 0 auto 1rem auto;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
         
         &:hover {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

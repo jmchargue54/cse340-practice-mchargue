@@ -8,11 +8,12 @@ import { catalogPage, courseDetailPage } from './catalog/catalog.js';
 import { homePage, aboutPage, demoPage, testErrorPage } from './index.js';
 import { facultyListPage, facultyDetailPage } from './faculty/faculty.js';
 import { showContactForm, processContactForm, showContactResponses } from './forms/contact.js';
-import { showLoginForm, processLogin, processLogout, showDashboard, loginValidation } from './forms/login.js';
+import { showLoginForm, processLogin, processLogout, showDashboard } from './forms/login.js';
 import { showRegistrationForm, processRegistration, showAllUsers, showEditAccountForm, processEditAccount, processDeleteAccount } from './forms/registration.js';
 import { requireLogin, requireRole } from '../middleware/auth.js';
 import { contactValidation } from '../middleware/validation/contact.js';
 import { registrationValidation, updateAccountValidation } from '../middleware/validation/registration.js';
+import { loginValidation } from '../middleware/validation/login.js';
 
 // Home and basic pages
 router.get('/', homePage);

@@ -99,10 +99,7 @@ const showEditAccountForm = async (req, res) => {
     //     message: 'User not found.'
     // };
     if (!targetUser) {
-        req.session.flash = {
-            type: 'error',
-            message: 'User not found.'
-        };
+        req.flash('error', 'User coud not be found.');
         return res.redirect('/users');
     }
     // TODO: Determine if current user can edit this account
@@ -117,10 +114,7 @@ const showEditAccountForm = async (req, res) => {
     //     message: 'You do not have permission to edit this account.'
     // };
     if (!canEdit) {
-        req.session.flash = {
-            type: 'error',
-            message: 'You do not have permission to edit this account.'
-        };
+        req.flash('error', 'You do not have permission to edit this account.');
         console.log(`Unauthorized edit attempt by user ${currentUser.id} on user ${targetUserId}`);
         return res.redirect('/users');
     }
@@ -141,10 +135,7 @@ const processEditAccount = async (req, res) => {
 
     // Check for validation errors
     if (!errors.isEmpty()) {
-        req.session.flash = {
-            type: 'error',
-            message: 'Please correct the errors in the form.'
-        };
+        req.flash('error', 'Please correct the errors in the form.');
         return res.redirect(`/users/${req.params.id}/edit`);
     }
 
@@ -156,10 +147,7 @@ const processEditAccount = async (req, res) => {
     // If not found, set flash message and redirect to /users
     const targetUser = await getUserById(targetUserId);
     if (!targetUser) {
-        req.session.flash = {
-            type: 'error',
-            message: 'User not found.'
-        };
+        req.flash('error', 'User not found.');
         return res.redirect('/users');
     }
 
@@ -167,10 +155,7 @@ const processEditAccount = async (req, res) => {
     // If cannot edit, set flash message and redirect
     const canEdit = (currentUser.id === targetUserId) || (currentUser.role_name === 'admin');
     if (!canEdit) {
-        req.session.flash = {
-            type: 'error',
-            message: 'You do not have permission to edit this account.'
-        };
+        req.flash('error', 'You do not have permission to edit this account.');
         return res.redirect('/users');
     }
 
@@ -180,21 +165,14 @@ const processEditAccount = async (req, res) => {
     // If email is taken, set flash message and redirect back to edit form
     const emailTaken = await emailExists(email);
     if (emailTaken && email !== targetUser.email) {
-        req.session.flash = {
-            type: 'error',
-            message: 'The provided email is already in use by another account.'
-        };
+        req.flash ('error', 'The provided email is already in use by another account.');
         return res.redirect(`/users/${targetUserId}/edit`);
     }
-
     // TODO: Update the user in the database using updateUser
     // If update fails, set flash message and redirect back to edit form
     const updatedUser = await updateUser(targetUserId, name, email);
     if (!updatedUser) {
-        req.session.flash = {
-            type: 'error',
-            message: 'Failed to update the account. Please try again.'
-        };
+        req.flash ('error', 'Failed to update the account. Please try again.');
         return res.redirect(`/users/${targetUserId}/edit`);
     }
 
@@ -206,10 +184,7 @@ const processEditAccount = async (req, res) => {
     }
 
     // Success! Set flash message and redirect
-    req.session.flash = {
-        type: 'success',
-        message: 'Account updated successfully.'
-    };
+    req.flash('success', 'Account updated successfully.');
     res.redirect('/users');
 };
 
@@ -224,10 +199,7 @@ const processDeleteAccount = async (req, res) => {
     // Only admins should be able to delete accounts
     // If not admin, set flash message and redirect
     if (currentUser.role_name !== 'admin') {
-        req.session.flash = {
-            type: 'error',
-            message: 'You do not have permission to delete accounts.'
-        };
+        req.flash('error', 'You do not have permission to delete accounts.');
         return res.redirect('/users');
     }
 
@@ -239,10 +211,7 @@ const processDeleteAccount = async (req, res) => {
     //     message: 'You cannot delete your own account.'
     // };
     if (targetUserId === currentUser.id) {
-        req.session.flash = {
-            type: 'error',
-            message: 'You cannot delete your own account.'
-        };
+        req.flash('error', 'You cannot delete your own account.');
         return res.redirect('/users');
     }
 
@@ -250,19 +219,13 @@ const processDeleteAccount = async (req, res) => {
     // If delete fails, set flash message and redirect
     const deleted = await deleteUser(targetUserId);
     if (!deleted) {
-        req.session.flash = {
-            type: 'error',
-            message: 'Failed to delete the account. Please try again.'
-        };
+        req.flash('error', 'Failed to delete the account. Please try again.');
         return res.redirect('/users');
     }
 
 
     // Success! Set flash message and redirect
-    req.session.flash = {
-        type: 'success',
-        message: 'Account deleted successfully.'
-    };
+    req.flash('success', 'Account deleted successfully.');
     res.redirect('/users');
 };
 

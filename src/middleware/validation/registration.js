@@ -1,4 +1,4 @@
-import body from 'express-validator';
+import { body } from 'express-validator';
 
 /**
  * Comprehensive validation rules for user registration

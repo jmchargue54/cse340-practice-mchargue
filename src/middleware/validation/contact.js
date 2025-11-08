@@ -1,4 +1,4 @@
-import body from 'express-validator';
+import { body } from 'express-validator';
 
 /**
  * Validation rules for contact form submission

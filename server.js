@@ -54,33 +54,33 @@ app.use(express.json());
 
 
 app.use((req, res, next) => {
-    // Initialize message containers for EJS
-    res.locals.messages = {
-        success: [],
-        error: []
+  // Initialize messages for EJS
+  res.locals.messages = {
+    success: [],
+    error: [],
+    warning: [],
+    info: []
+  };
+
+  if (req.session.flash) {
+    for (const type in req.session.flash) {
+      if (Array.isArray(req.session.flash[type])) {
+        res.locals.messages[type].push(...req.session.flash[type]);
+      }
+    }
+    // Clear flash after reading
+    req.session.flash = {
+      success: [],
+      error: [],
+      warning: [],
+      info: []
     };
-    
-    // If using req.session.flash from controllers
-    if (req.session.flash) {
-        const { type, message } = req.session.flash;
-        if (type && message) {
-            // Always store messages as arrays
-            res.locals.messages[type].push(message);
-        }
-        delete req.session.flash; // clear after reading
-    }
-    
-    // If using req.flash() from connect-flash (optional)
-    if (typeof req.flash === 'function') {
-        const successMsgs = req.flash('success');
-        const errorMsgs = req.flash('error');
-        if (successMsgs.length) res.locals.messages.success.push(...successMsgs);
-        if (errorMsgs.length) res.locals.messages.error.push(...errorMsgs);
-    }
-    
-    // Pass session to views
-    res.locals.session = req.session;
-    next();
+  }
+
+  // Pass session to templates
+  res.locals.session = req.session;
+
+  next();
 });
 
 /**
